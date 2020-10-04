@@ -10,20 +10,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import javax.inject.Inject
 
-abstract class BaseFragment<B: ViewDataBinding, M: ViewModel>(
+abstract class BaseFragment<B : ViewDataBinding, M : ViewModel>(
     @LayoutRes
     private val layoutId: Int
 ) : Fragment() {
 
-    lateinit var viewBinding:B
-    lateinit var viewModel:M
+    lateinit var viewBinding: B
+    val viewModel: M by lazy { ViewModelProvider(this).get(getViewModelClass()) }
 
-    /**
-     * Called to initialize dagger injection dependency graph when fragment is attached.
-     */
-    abstract fun onInitDependencyInjection()
+    abstract fun getViewModelClass() : Class<M>
 
     /**
      * Called to Initialize view data binding variables when fragment view is created.
@@ -52,18 +52,6 @@ abstract class BaseFragment<B: ViewDataBinding, M: ViewModel>(
         viewBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         viewBinding.lifecycleOwner = viewLifecycleOwner
         return viewBinding.root
-    }
-
-    /**
-     * Called when a fragment is first attached to its context.
-     *
-     * @param context The application context.
-     *
-     * @see Fragment.onAttach
-     */
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        onInitDependencyInjection()
     }
 
     /**

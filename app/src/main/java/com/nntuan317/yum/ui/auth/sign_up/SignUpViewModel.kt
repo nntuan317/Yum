@@ -1,0 +1,7 @@
+package com.nntuan317.yum.ui.auth.sign_up
+
+import androidx.lifecycle.ViewModel
+
+class SignUpViewModel : ViewModel() {
+    // TODO: Implement the ViewModel
+}
