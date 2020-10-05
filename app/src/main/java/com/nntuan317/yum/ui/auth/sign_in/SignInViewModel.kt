@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.nntuan317.yum.data.user.UserRepository
+import com.nntuan317.yum.extensions.isEmailValid
 import com.nntuan317.yum.livedata.SingleLiveData
 
 class SignInViewModel @ViewModelInject constructor(
@@ -20,6 +21,10 @@ class SignInViewModel @ViewModelInject constructor(
     private val _state = MutableLiveData<SignInViewState>()
     val state: LiveData<SignInViewState>
         get() = _state
+    val email = MutableLiveData<String>()
+    val password = MutableLiveData<String>()
+    val emailError = MutableLiveData<String>()
+    val passwordError = MutableLiveData<String>()
 
     fun signInWithGoogle() {
         event.postValue(SignInViewEvent.SignInWithGoogle)
@@ -42,7 +47,33 @@ class SignInViewModel @ViewModelInject constructor(
             if (it.isSuccessful) {
                 _state.postValue(SignInViewState.SignInSuccess)
             } else {
-                _state.postValue(SignInViewState.SignInSuccess)
+                _state.postValue(SignInViewState.SignInFailed("Something went wrong"))
+            }
+        }
+    }
+
+    fun signInWithEmailAndPassword() {
+        var isValid = true
+        if (!email.value.isEmailValid()) {
+            isValid = false
+            emailError.postValue("Email is invalid")
+        } else {
+            emailError.postValue(null)
+        }
+        if (password.value.isNullOrBlank()) {
+            isValid = false
+            passwordError.postValue("Password is invalid")
+        } else {
+            passwordError.postValue(null)
+        }
+        if (isValid) {
+            val task = userRepository.signInWithEmailAndPassword(email.value!!, password.value!!)
+            task.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    _state.postValue(SignInViewState.SignInSuccess)
+                } else {
+                    _state.postValue(SignInViewState.SignInFailed("Incorrect email or password"))
+                }
             }
         }
     }
