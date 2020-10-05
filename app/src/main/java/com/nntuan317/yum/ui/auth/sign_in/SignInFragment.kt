@@ -2,21 +2,17 @@ package com.nntuan317.yum.ui.auth.sign_in
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.viewModels
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.nntuan317.yum.R
 import com.nntuan317.yum.YumActivity
 import com.nntuan317.yum.base.BaseFragment
+import com.nntuan317.yum.bindings.gone
 import com.nntuan317.yum.databinding.SignInFragmentBinding
 import com.nntuan317.yum.extensions.observe
 import dagger.hilt.android.AndroidEntryPoint
-import www.sanju.motiontoast.MotionToast
 import javax.inject.Inject
 
 private const val RC_SIGN_IN_WITH_GOOGLE = 1001
@@ -49,9 +45,6 @@ class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
 
     override fun onInitDataBinding() {
         viewBinding.viewModel = this.viewModel
-        viewBinding.btnSignInWithGoogle.setOnClickListener {
-            viewModel.signInWithGoogle()
-        }
     }
 
     override fun getViewModelClass(): Class<SignInViewModel> = SignInViewModel::class.java
@@ -78,19 +71,18 @@ class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
                 }
             }
             is SignInViewState.SignInFailed -> {
-                showError()
+                showError(viewState.errorMsg)
             }
         }
     }
 
-    private fun showError() {
-        MotionToast.createToast(
-            requireActivity(),
-            "Sign in failed",
-            MotionToast.TOAST_ERROR,
-            MotionToast.GRAVITY_CENTER,
-            MotionToast.LONG_DURATION,
-            ResourcesCompat.getFont(requireContext(), R.font.helvetica_regular)
-        )
+    private fun showError(errorMsg:String) {
+        // Bug lib here
+//        MotionToast.createToast(requireActivity(),"Sign in failed!",
+//            MotionToast.TOAST_ERROR,
+//            MotionToast.GRAVITY_BOTTOM,
+//            MotionToast.LONG_DURATION,
+//            ResourcesCompat.getFont(requireContext(),R.font.helvetica_regular))
+        Snackbar.make(requireView(), errorMsg, Snackbar.LENGTH_SHORT).show()
     }
 }
