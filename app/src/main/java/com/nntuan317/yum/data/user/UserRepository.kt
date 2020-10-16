@@ -17,6 +17,8 @@ interface UserRepository {
 
     fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult>
 
+    fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult>
+
     fun signInWithGoogle(idToken: String): Task<AuthResult>
 }
 
@@ -42,6 +44,10 @@ class UserRepositoryImp @Inject constructor(private val auth: FirebaseAuth) : Us
 
     override fun signInWithEmailAndPassword(email: String, password: String): Task<AuthResult> {
         return auth.signInWithEmailAndPassword(email, password)
+    }
+
+    override fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult> {
+        return auth.createUserWithEmailAndPassword(email, password)
     }
 
     override fun signInWithGoogle(idToken: String): Task<AuthResult> {
