@@ -14,6 +14,7 @@
         android:id="@+id/sign_in"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
         tools:context=".ui.auth.sign_in.SignInFragment">
 
         <TextView
@@ -23,8 +24,8 @@
             android:layout_marginTop="36dp"
             android:fontFamily="cursive"
             android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/colorPrimary"
-            android:textSize="40dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,6 +111,7 @@
             app:layout_constraintEnd_toEndOf="@+id/layoutPassword"
             app:layout_constraintStart_toStartOf="@id/layoutPassword"
             app:layout_constraintTop_toBottomOf="@id/btnSignInWithEmailAndPassword" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnSignInWithFacebook"

@@ -83,6 +83,6 @@ class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
 //            MotionToast.GRAVITY_BOTTOM,
 //            MotionToast.LONG_DURATION,
 //            ResourcesCompat.getFont(requireContext(),R.font.helvetica_regular))
-        Snackbar.make(requireView(), errorMsg, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(requireView(), errorMsg, Snackbar.LENGTH_LONG).show()
     }
 }

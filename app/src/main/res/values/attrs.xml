@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="dividerColor" format="color" />
+    <attr name="dividerThickness" format="dimension" />
+    <attr name="dashLength" format="dimension" />
+    <attr name="dashGap" format="dimension" />
+
+    <declare-styleable name="SeparatorTextView">
+        <attr name="dividerColor" />
+        <attr name="dividerThickness" />
+        <attr name="dividerTextPadding" format="dimension" />
+        <attr name="dashLength" />
+        <attr name="dashGap" />
+    </declare-styleable>
+</resources>
