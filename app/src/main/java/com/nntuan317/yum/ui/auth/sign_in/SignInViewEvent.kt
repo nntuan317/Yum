@@ -7,6 +7,8 @@ sealed class SignInViewEvent {
         val password: String
     ) : SignInViewEvent()
 
+    object SignInWithFacebook : SignInViewEvent()
+
     object SignInWithGoogle : SignInViewEvent()
 
     object ForgotPassword : SignInViewEvent()

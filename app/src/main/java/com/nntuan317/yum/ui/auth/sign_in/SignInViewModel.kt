@@ -4,9 +4,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.nntuan317.yum.data.user.UserRepository
 import com.nntuan317.yum.extensions.isEmailValid
 import com.nntuan317.yum.livedata.SingleLiveData
@@ -40,6 +42,19 @@ class SignInViewModel @ViewModelInject constructor(
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val task = userRepository.signInWithGoogle(idToken)
+        handleSignInResult(task)
+    }
+
+    fun signInWithFacebook() {
+        event.postValue(SignInViewEvent.SignInWithFacebook)
+    }
+
+    fun handleFacebookAccessToken(accessToken: AccessToken) {
+        val task = userRepository.signInWithFacebook(accessToken.token)
+        handleSignInResult(task)
+    }
+
+    private fun handleSignInResult(task: Task<AuthResult>) {
         task.addOnCompleteListener {
             if (it.isSuccessful) {
                 _state.postValue(SignInViewState.SignInSuccess)
