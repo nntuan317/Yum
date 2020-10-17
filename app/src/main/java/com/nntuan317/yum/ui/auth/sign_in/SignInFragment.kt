@@ -51,6 +51,7 @@ class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
                 signInWithGoogle()
             }
             is SignInViewEvent.ForgotPassword -> {
+                findNavController().navigate(R.id.action_forgot_password)
             }
             is SignInViewEvent.SignUp -> {
                 findNavController().navigate(R.id.action_sign_up)
