@@ -8,4 +8,8 @@ sealed class SignInViewEvent {
     ) : SignInViewEvent()
 
     object SignInWithGoogle : SignInViewEvent()
+
+    object ForgotPassword : SignInViewEvent()
+
+    object SignUp : SignInViewEvent()
 }

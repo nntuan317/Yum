@@ -37,7 +37,6 @@ class SignInViewModel @ViewModelInject constructor(
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-
         }
     }
 
@@ -76,5 +75,13 @@ class SignInViewModel @ViewModelInject constructor(
                 }
             }
         }
+    }
+
+    fun forgotPassword() {
+        event.postValue(SignInViewEvent.ForgotPassword)
+    }
+
+    fun signUp() {
+        event.postValue(SignInViewEvent.SignUp)
     }
 }

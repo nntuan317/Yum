@@ -7,20 +7,22 @@ import androidx.lifecycle.ViewModel
 import com.nntuan317.yum.data.user.UserRepository
 import com.nntuan317.yum.extensions.isEmailValid
 import com.nntuan317.yum.livedata.SingleLiveData
-import com.nntuan317.yum.ui.auth.sign_in.SignInViewEvent
 
-class SignUpViewModel  @ViewModelInject constructor(
+class SignUpViewModel @ViewModelInject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    val event = SingleLiveData<SignInViewEvent>()
+    val event = SingleLiveData<SignUpViewEvent>()
     private val _state = MutableLiveData<SignUpViewState>()
     val state: LiveData<SignUpViewState>
         get() = _state
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
+    val isAcceptPolicy = MutableLiveData<Boolean>()
+
     val emailError = MutableLiveData<String>()
     val passwordError = MutableLiveData<String>()
+    val policyError = MutableLiveData<String>()
 
     fun signUp() {
         var isValid = true
@@ -36,8 +38,14 @@ class SignUpViewModel  @ViewModelInject constructor(
         } else {
             passwordError.postValue(null)
         }
+        if (isAcceptPolicy.value != true) {
+            policyError.postValue("You must agree policy")
+        } else {
+            policyError.postValue(null)
+        }
         if (isValid) {
-            val task = userRepository.createUserWithEmailAndPassword(email.value!!, password.value!!)
+            val task =
+                userRepository.createUserWithEmailAndPassword(email.value!!, password.value!!)
             task.addOnCompleteListener {
                 if (it.isSuccessful) {
                     _state.postValue(SignUpViewState.SignUpSuccess)
@@ -46,5 +54,9 @@ class SignUpViewModel  @ViewModelInject constructor(
                 }
             }
         }
+    }
+
+    fun goBack() {
+        event.postValue(SignUpViewEvent.GoBack)
     }
 }
