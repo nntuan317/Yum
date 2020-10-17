@@ -114,13 +114,13 @@
             app:layout_constraintStart_toStartOf="@id/layoutPassword"
             app:layout_constraintTop_toBottomOf="@id/btnSignInWithEmailAndPassword" />
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/btnSignInWithFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:onClick="@{(v) -> viewModel.signInWithFacebook()}"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:layout_constraintEnd_toStartOf="@+id/btnSignInWithGoogle"

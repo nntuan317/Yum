@@ -1,10 +1,7 @@
 package com.nntuan317.yum.data.user
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthCredential
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
@@ -20,6 +17,8 @@ interface UserRepository {
     fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult>
 
     fun signInWithGoogle(idToken: String): Task<AuthResult>
+
+    fun signInWithFacebook(token:String) : Task<AuthResult>
 
     fun sendEmailResetPassword(email: String): Task<Void>
 }
@@ -54,6 +53,11 @@ class UserRepositoryImp @Inject constructor(private val auth: FirebaseAuth) : Us
 
     override fun signInWithGoogle(idToken: String): Task<AuthResult> {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+        return auth.signInWithCredential(credential)
+    }
+
+    override fun signInWithFacebook(token: String): Task<AuthResult> {
+        val credential = FacebookAuthProvider.getCredential(token)
         return auth.signInWithCredential(credential)
     }
 
