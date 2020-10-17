@@ -20,6 +20,8 @@ interface UserRepository {
     fun createUserWithEmailAndPassword(email: String, password: String): Task<AuthResult>
 
     fun signInWithGoogle(idToken: String): Task<AuthResult>
+
+    fun sendEmailResetPassword(email: String): Task<Void>
 }
 
 @Singleton
@@ -53,5 +55,9 @@ class UserRepositoryImp @Inject constructor(private val auth: FirebaseAuth) : Us
     override fun signInWithGoogle(idToken: String): Task<AuthResult> {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         return auth.signInWithCredential(credential)
+    }
+
+    override fun sendEmailResetPassword(email: String): Task<Void> {
+        return auth.sendPasswordResetEmail(email)
     }
 }
