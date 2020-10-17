@@ -1,11 +1,7 @@
 package com.nntuan317.yum.ui.auth.sign_up
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.nntuan317.yum.R
 import com.nntuan317.yum.base.BaseFragment
@@ -18,16 +14,18 @@ class SignUpFragment : BaseFragment<SignUpFragmentBinding, SignUpViewModel>(
     layoutId = R.layout.sign_up_fragment
 ) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.sign_up_fragment, container, false)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        observe(viewModel.event, ::onViewEventChange)
         observe(viewModel.state, ::onViewStateChange)
+    }
+
+    private fun onViewEventChange(viewEvent: SignUpViewEvent) {
+        when (viewEvent) {
+            SignUpViewEvent.GoBack -> {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     override fun getViewModelClass(): Class<SignUpViewModel> = SignUpViewModel::class.java

@@ -3,6 +3,7 @@ package com.nntuan317.yum.ui.auth.sign_in
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.snackbar.Snackbar
@@ -21,11 +22,6 @@ private const val RC_SIGN_IN_WITH_GOOGLE = 1001
 class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
     layoutId = R.layout.sign_in_fragment
 ) {
-
-    companion object {
-        fun newInstance() = SignInFragment()
-    }
-
     @Inject
     lateinit var googleSignIn: GoogleSignInClient
 
@@ -54,6 +50,11 @@ class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
             is SignInViewEvent.SignInWithGoogle -> {
                 signInWithGoogle()
             }
+            is SignInViewEvent.ForgotPassword -> {
+            }
+            is SignInViewEvent.SignUp -> {
+                findNavController().navigate(R.id.action_sign_up)
+            }
         }
     }
 
@@ -76,7 +77,7 @@ class SignInFragment : BaseFragment<SignInFragmentBinding, SignInViewModel>(
         }
     }
 
-    private fun showError(errorMsg:String) {
+    private fun showError(errorMsg: String) {
         // Bug lib here
 //        MotionToast.createToast(requireActivity(),"Sign in failed!",
 //            MotionToast.TOAST_ERROR,
